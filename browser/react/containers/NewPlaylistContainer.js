@@ -1,9 +1,24 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import NewPlaylist from '../components/NewPlaylist';
 import store from '../store';
 import {addNewPlaylist} from '../action-creators/playlists';
 
-class FormContainer extends React.Component {
+function mapStateToProps(state){
+  
+  return {}
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    handleSubmitDispatch: function(value) {
+      return dispatch(addNewPlaylist(this.state.inputValue));
+    }
+  }
+}
+
+
+class NewPlaylistContainer extends React.Component {
 
   constructor(props) {
     super(props);
@@ -26,8 +41,7 @@ class FormContainer extends React.Component {
   handleSubmit(evt) {
 
     evt.preventDefault();
-
-    store.dispatch(addNewPlaylist(this.state.inputValue));
+    this.props.handleSubmitDispatch(this.state.inputValue);
 
     this.setState({
       inputValue: '',
@@ -57,4 +71,6 @@ class FormContainer extends React.Component {
 
 }
 
-export default FormContainer;
+export default connect(
+  mapStateToProps, 
+  mapDispatchToProps)(NewPlaylistContainer);

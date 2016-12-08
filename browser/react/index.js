@@ -51,9 +51,10 @@ const onArtistEnter = function (nextRouterState) {
 const onPlaylistEnter = function (nextRouterState) {
   const playlistId = nextRouterState.params.playlistId;
   store.dispatch(getPlaylistById(playlistId));
+  store.dispatch(loadAllSongs());
 };
 
-const onStationsEnter = function() {
+const loadSongsOnEnter = function() {
   store.dispatch(loadAllSongs());
 }
 
@@ -69,10 +70,10 @@ ReactDOM.render(
           <Route path="songs" component={Songs}/>
         </Route>
         <Route path="/new-playlist" component={NewPlaylistContainer}/>
-        <Route path="/playlists/:playlistId" component={PlaylistContainer} onEnter={onPlaylistEnter}/>
+        <Route path="/playlists/:playlistId" onEnter={onPlaylistEnter} component={PlaylistContainer}/>
         <Route path="/lyrics" component={LyricsContainer} />
-        <Route path="/stations" onEnter={onStationsEnter} component={Stations} />
-        <Route path='/stations/:genreName' onEnter={onStationsEnter} component= {Station} />
+        <Route path="/stations" onEnter={loadSongsOnEnter} component={Stations} />
+        <Route path='/stations/:genreName' onEnter={loadSongsOnEnter} component= {Station} />
         <IndexRedirect to="/albums"/>
       </Route>
     </Router>
